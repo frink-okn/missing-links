@@ -1,12 +1,12 @@
 id: states-geoconnex-ruralkg
-title: GeoConnex and RuralKG use different representations for US states
-problem_type: different_namespaces
+title: Whether GeoConnex and RuralKG can join on US states is not yet established
+problem_type: other
 identifier_type: state identifier
 graphs:
   - graph: geoconnex
     namespace: to_be_confirmed
     example_id: to_be_confirmed
-    representation: to_be_confirmed
+    representation: object of http://gnis-ld.org/lod/gnis/ontology/state, value ending /states/NN, canonicalised to the KWG IRI for the same state
   - graph: ruralkg
     namespace: to_be_confirmed
     example_id: to_be_confirmed
@@ -14,18 +14,23 @@ graphs:
 proposed_standard_namespace: to_be_confirmed
 evidence:
   summary: >
-    Draft only. Both graphs represent US states and share county
-    identifiers on county FIPS codes, but the IRI namespace each
-    one uses for a state itself has not been verified yet. That
-    research is the next step for this record.
-  queries: []
+    GeoConnex states are partly verified from the saved runs, but
+    RuralKG has no state_FIPS endpoint in the saved ablation at
+    all, so the saved runs do not establish whether RuralKG
+    represents US states at all, or under what predicate. The
+    county overlap below is county evidence, not state evidence,
+    and must not be read as a state join.
+  queries:
+    - "live_catalog_2026-11-18/queries/candidate_geoconnex_sockg_state_FIPS_left.rq"
   counts:
     - "County FIPS overlap, GeoConnex x RuralKG: 3,222 shared counties, from the October 2026 connection-map run"
-  source: "Connection-map run, October 2026, and the catalog audit of 26 September 2026"
+    - "RuralKG endpoints in the saved ablation: county_FIPS 3,234, ZIP5 5,420, DrugBank 7, one untyped pattern, no state_FIPS"
+  source: "NewAnalysis.zip, ablation_release_2026-11-19/endpoint_status_change.csv and pair_scheme_coverage.csv; connection-map run, October 2026"
 failed_matches: []
 status: open
 created: 2026-11-21
 notes: >
-  The state namespace for each graph must be read from the graph
-  itself, with one example identifier per graph, before a standard
-  can be proposed.
+  Fill the RuralKG fields only from a live query that finds a
+  state representation. If no such query finds one, record that
+  explicitly, with the query that was tried, rather than assuming
+  RuralKG represents states.
