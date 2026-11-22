@@ -1,31 +1,38 @@
 id: states-geoconnex-spatialkg
-title: GeoConnex and SpatialKG use different representations for US states
+title: GeoConnex and SpatialKG join on states only after canonicalisation to a shared form
 problem_type: different_namespaces
 identifier_type: state identifier
 graphs:
   - graph: geoconnex
     namespace: to_be_confirmed
     example_id: to_be_confirmed
-    representation: to_be_confirmed
+    representation: object of http://gnis-ld.org/lod/gnis/ontology/state, value ending /states/NN, canonicalised to the KWG IRI for the same state
   - graph: spatialkg
-    namespace: to_be_confirmed
-    example_id: to_be_confirmed
-    representation: to_be_confirmed
+    namespace: http://stko-kwg.geog.ucsb.edu/lod/resource/administrativeRegion.USA.
+    example_id: http://stko-kwg.geog.ucsb.edu/lod/resource/administrativeRegion.USA.01
+    representation: instance of http://stko-kwg.geog.ucsb.edu/lod/ontology/AdministrativeRegion_1 with http://stko-kwg.geog.ucsb.edu/lod/ontology/hasFIPS
 proposed_standard_namespace: to_be_confirmed
 evidence:
   summary: >
-    Draft only. Both graphs represent US states, but the IRI
-    namespace each one uses for a state itself has not been
-    verified yet, and no shared state identifier count has been
-    recorded for this pair. That research is the next step for
-    this record.
-  queries: []
-  counts: []
-  source: "To be confirmed by a live query against each graph"
+    Corrected from the saved runs. This pair does join on states.
+    Catalog entry L3-state-fips-geoconnex-spatialkg, state_FIPS,
+    records 51 shared keys, reproduced 51/51. The problem is
+    narrower than a missing join. The two graphs use different
+    native forms, GeoConnex GNIS /states/NN against SpatialKG
+    native KWG IRI, and they join only after canonicalisation
+    to the KWG form.
+  queries:
+    - "live_catalog_2026-11-18/queries/candidate_geoconnex_sockg_state_FIPS_left.rq"
+    - "live_catalog_2026-11-18/queries/candidate_geoconnex_sockg_state_FIPS_right.rq"
+  counts:
+    - "State FIPS overlap, GeoConnex x SpatialKG: 51 shared keys, reproduced 51/51, catalog L3-state-fips-geoconnex-spatialkg"
+  source: "NewAnalysis.zip, baseline_2026-11-18/corrected_crosswalk_baseline.csv and ablation_release_2026-11-19/pair_scheme_coverage.csv"
 failed_matches: []
 status: open
 created: 2026-11-21
 notes: >
-  This record is the thinnest of the three. It exists to show
-  that a record can be opened before the research is done, with
-  the gaps marked, rather than waiting for a finished answer.
+  The KWG namespace is the de facto canonical form the connection
+  map already uses for both graphs, and SpatialKG uses it natively.
+  It is a candidate for the proposed standard only. It stays
+  to_be_confirmed until GeoConnex full native IRI is known from a
+  live query and Jim and Patrick agree the standard.

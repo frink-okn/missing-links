@@ -1,6 +1,6 @@
 id: states-ruralkg-spatialkg
-title: RuralKG and SpatialKG use different representations for US states
-problem_type: different_namespaces
+title: Whether RuralKG and SpatialKG can join on US states is not yet established
+problem_type: other
 identifier_type: state identifier
 graphs:
   - graph: ruralkg
@@ -8,21 +8,24 @@ graphs:
     example_id: to_be_confirmed
     representation: to_be_confirmed
   - graph: spatialkg
-    namespace: to_be_confirmed
-    example_id: to_be_confirmed
-    representation: to_be_confirmed
+    namespace: http://stko-kwg.geog.ucsb.edu/lod/resource/administrativeRegion.USA.
+    example_id: http://stko-kwg.geog.ucsb.edu/lod/resource/administrativeRegion.USA.01
+    representation: instance of http://stko-kwg.geog.ucsb.edu/lod/ontology/AdministrativeRegion_1 with http://stko-kwg.geog.ucsb.edu/lod/ontology/hasFIPS
 proposed_standard_namespace: to_be_confirmed
 evidence:
   summary: >
-    Draft only. Both graphs represent US states and share county
-    identifiers on county FIPS codes, including the county FIPS
-    value 01001, but the IRI namespace each one uses for a state
-    itself has not been verified yet. That research is the next
-    step for this record.
-  queries: []
+    SpatialKG states are verified from the saved runs, but
+    RuralKG has no state_FIPS endpoint in the saved ablation at
+    all, so the saved runs do not establish whether RuralKG
+    represents US states at all, or under what predicate. The
+    county parallel below is county evidence, not state evidence.
+    Raw county matching without a scheme check is not a join.
+  queries:
+    - "live_catalog_2026-11-18/queries/candidate_ruralkg_spatialkg_county_FIPS_left.rq"
   counts:
-    - "County FIPS overlap, RuralKG x SpatialKG: 3,104 source keys on county_FIPS:01001, from the canonicalised map"
-  source: "Connection-map run, October 2026"
+    - "County FIPS overlap, RuralKG x SpatialKG: raw exact 0, canonical direct 3,104"
+    - "RuralKG endpoints in the saved ablation: county_FIPS 3,234, ZIP5 5,420, DrugBank 7, one untyped pattern, no state_FIPS"
+  source: "NewAnalysis.zip, ablation_release_2026-11-19/pair_scheme_coverage.csv and endpoint_status_change.csv"
 failed_matches:
   - graphs: [ruralkg, spatialkg]
     attempted_identifier: "county FIPS, raw lexical match without a scheme check"
@@ -30,5 +33,7 @@ failed_matches:
 status: open
 created: 2026-11-21
 notes: >
-  The failed match above is kept on purpose. It shows why the
-  record must compare namespaces, not bare strings.
+  Fill the RuralKG fields only from a live query that finds a
+  state representation. If no such query finds one, record that
+  explicitly, with the query that was tried, rather than assuming
+  RuralKG represents states.
