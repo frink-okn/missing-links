@@ -1,0 +1,146 @@
+# missing-links — record schema
+#
+# This file is the LinkML schema for one record in this repository.
+# One YAML file under records/ is one record. The schema is kept
+# small on purpose: a record must say what the problem is, which
+# graphs are involved, what each one uses, what is proposed, and
+# what evidence was checked.
+#
+# The validator in scripts/validate_records.py checks the same
+# shape. It does not need LinkML installed; it checks the fields,
+# the allowed values, and that the evidence field is not empty.
+
+id: missing-links
+name: missing-links
+title: Missing Links record schema
+description: One structured record of a federation connection problem.
+license: BSD-3-Clause
+prefixes:
+  linkml: https://w3id.org/linkml/
+default_range: string
+
+classes:
+  MissingLinkRecord:
+    description: One federation connection problem.
+    slots:
+      - id
+      - title
+      - problem_type
+      - identifier_type
+      - graphs
+      - proposed_standard_namespace
+      - evidence
+      - failed_matches
+      - status
+      - reviewer
+      - created
+      - notes
+    slot_usage:
+      id:
+        required: true
+        pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
+        description: Short stable id, for example states-geoconnex-ruralkg.
+      title:
+        required: true
+      problem_type:
+        required: true
+        range: ProblemType
+      identifier_type:
+        required: true
+        description: The kind of identifier, for example state identifier.
+      graphs:
+        required: true
+        multivalued: true
+        minimum_cardinality: 2
+        range: GraphRepresentation
+      proposed_standard_namespace:
+        required: true
+        description: The namespace proposed as the standard, or "to_be_confirmed" while the research is not done.
+      evidence:
+        required: true
+        range: Evidence
+      failed_matches:
+        multivalued: true
+        range: FailedMatch
+      status:
+        required: true
+        range: RecordStatus
+      reviewer:
+        description: Who reviewed it, once it has been reviewed.
+      created:
+        description: Date the record was drafted, YYYY-MM-DD.
+      notes:
+        description: Anything else a reviewer needs to know.
+
+  GraphRepresentation:
+    description: How one graph represents the identifier.
+    slots:
+      - graph
+      - namespace
+      - example_id
+      - representation
+    slot_usage:
+      graph:
+        required: true
+      namespace:
+        required: true
+        description: The IRI namespace the graph uses, or "to_be_confirmed" while the research is not done.
+      example_id:
+        description: One example identifier in this graph, if known.
+      representation:
+        description: How the identifier is written in this graph, for example as a full IRI, a code, or a label.
+
+  Evidence:
+    description: What was checked, so a reviewer can repeat it.
+    slots:
+      - summary
+      - queries
+      - counts
+      - source
+    slot_usage:
+      summary:
+        required: true
+        description: One or two sentences saying what was checked and what it showed.
+      queries:
+        multivalued: true
+        description: Queries run, or a pointer to where they live.
+      counts:
+        multivalued: true
+        description: Counts observed, with the date they were read.
+      source:
+        description: Where the evidence came from, for example a computed map run, a live query, or a catalog entry.
+
+  FailedMatch:
+    description: A join that was tried and did not work.
+    slots:
+      - graphs
+      - attempted_identifier
+      - reason
+    slot_usage:
+      graphs:
+        required: true
+        multivalued: true
+      attempted_identifier:
+        required: true
+      reason:
+        required: true
+        description: Why it did not work, in one sentence.
+
+enums:
+  ProblemType:
+    permissible_values:
+      different_namespaces:
+        description: The graphs use different namespaces for the same thing.
+      missing_join:
+        description: The graphs should join and do not.
+      wrong_join:
+        description: The graphs join on the wrong identifier.
+      failed_match:
+        description: A join was tried and failed.
+      other:
+  RecordStatus:
+    permissible_values:
+      open:
+      under_review:
+      accepted:
+      rejected:

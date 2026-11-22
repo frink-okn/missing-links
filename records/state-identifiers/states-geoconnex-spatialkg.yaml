@@ -1,0 +1,31 @@
+id: states-geoconnex-spatialkg
+title: GeoConnex and SpatialKG use different representations for US states
+problem_type: different_namespaces
+identifier_type: state identifier
+graphs:
+  - graph: geoconnex
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+  - graph: spatialkg
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+proposed_standard_namespace: to_be_confirmed
+evidence:
+  summary: >
+    Draft only. Both graphs represent US states, but the IRI
+    namespace each one uses for a state itself has not been
+    verified yet, and no shared state identifier count has been
+    recorded for this pair. That research is the next step for
+    this record.
+  queries: []
+  counts: []
+  source: "To be confirmed by a live query against each graph"
+failed_matches: []
+status: open
+created: 2026-11-21
+notes: >
+  This record is the thinnest of the three. It exists to show
+  that a record can be opened before the research is done, with
+  the gaps marked, rather than waiting for a finished answer.

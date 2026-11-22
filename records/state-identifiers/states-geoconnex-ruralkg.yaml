@@ -1,0 +1,31 @@
+id: states-geoconnex-ruralkg
+title: GeoConnex and RuralKG use different representations for US states
+problem_type: different_namespaces
+identifier_type: state identifier
+graphs:
+  - graph: geoconnex
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+  - graph: ruralkg
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+proposed_standard_namespace: to_be_confirmed
+evidence:
+  summary: >
+    Draft only. Both graphs represent US states and share county
+    identifiers on county FIPS codes, but the IRI namespace each
+    one uses for a state itself has not been verified yet. That
+    research is the next step for this record.
+  queries: []
+  counts:
+    - "County FIPS overlap, GeoConnex x RuralKG: 3,222 shared counties, from the October 2026 connection-map run"
+  source: "Connection-map run, October 2026, and the catalog audit of 26 September 2026"
+failed_matches: []
+status: open
+created: 2026-11-21
+notes: >
+  The state namespace for each graph must be read from the graph
+  itself, with one example identifier per graph, before a standard
+  can be proposed.

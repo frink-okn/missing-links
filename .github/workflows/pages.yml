@@ -1,0 +1,52 @@
+name: Publish views
+
+# Rebuilds the index and the cross-graph matrix from the records
+# and publishes them to GitHub Pages. This runs only on merge to
+# main. It does not call a language model, and it does not accept,
+# reject, or change any record. It only rebuilds static pages.
+#
+# Before the first run, enable Pages once in the repository:
+# Settings > Pages > Build and deployment > Source: GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Validate records
+        run: python3 scripts/validate_records.py
+      - name: Build views
+        run: python3 scripts/build_views.py --out docs
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

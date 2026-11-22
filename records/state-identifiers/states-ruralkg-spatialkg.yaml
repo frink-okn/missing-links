@@ -1,0 +1,34 @@
+id: states-ruralkg-spatialkg
+title: RuralKG and SpatialKG use different representations for US states
+problem_type: different_namespaces
+identifier_type: state identifier
+graphs:
+  - graph: ruralkg
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+  - graph: spatialkg
+    namespace: to_be_confirmed
+    example_id: to_be_confirmed
+    representation: to_be_confirmed
+proposed_standard_namespace: to_be_confirmed
+evidence:
+  summary: >
+    Draft only. Both graphs represent US states and share county
+    identifiers on county FIPS codes, including the county FIPS
+    value 01001, but the IRI namespace each one uses for a state
+    itself has not been verified yet. That research is the next
+    step for this record.
+  queries: []
+  counts:
+    - "County FIPS overlap, RuralKG x SpatialKG: 3,104 source keys on county_FIPS:01001, from the canonicalised map"
+  source: "Connection-map run, October 2026"
+failed_matches:
+  - graphs: [ruralkg, spatialkg]
+    attempted_identifier: "county FIPS, raw lexical match without a scheme check"
+    reason: "Raw values match as strings but come from different IRI forms, so a raw match alone is not a join."
+status: open
+created: 2026-11-21
+notes: >
+  The failed match above is kept on purpose. It shows why the
+  record must compare namespaces, not bare strings.
