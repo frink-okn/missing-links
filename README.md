@@ -1,5 +1,10 @@
 # missing-links
 
+[![Validate records](https://github.com/frink-okn/missing-links/actions/workflows/validate.yml/badge.svg)](https://github.com/frink-okn/missing-links/actions/workflows/validate.yml)
+[![Publish views](https://github.com/frink-okn/missing-links/actions/workflows/pages.yml/badge.svg)](https://github.com/frink-okn/missing-links/actions/workflows/pages.yml)
+[![License: BSD-3-Clause](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](scripts/validate_records.py)
+
 A collection of structured records of federation connection problems.
 
 A record is one problem where two or more knowledge graphs in the
